@@ -51,6 +51,13 @@ RUN mkdir /app/log /app/config
 COPY --from=frontend-build /app/src/objects/static/css /app/src/objects/static/css
 COPY --from=frontend-build /app/src/objects/static/js /app/src/objects/static/js
 COPY ./src /app/src
+
+RUN useradd -M -u 1000 maykin
+RUN chown -R maykin /app
+
+# drop privileges
+USER maykin
+
 ARG COMMIT_HASH
 ARG RELEASE
 ENV GIT_SHA=${COMMIT_HASH}
